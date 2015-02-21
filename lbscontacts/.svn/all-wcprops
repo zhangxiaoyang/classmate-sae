@@ -1,0 +1,65 @@
+K 25
+svn:wc:ra_dav:version-url
+V 39
+/lbscontacts/!svn/ver/178/1/lbscontacts
+END
+__init__.py
+K 25
+svn:wc:ra_dav:version-url
+V 50
+/lbscontacts/!svn/ver/11/1/lbscontacts/__init__.py
+END
+interface.py
+K 25
+svn:wc:ra_dav:version-url
+V 52
+/lbscontacts/!svn/ver/174/1/lbscontacts/interface.py
+END
+settings.py
+K 25
+svn:wc:ra_dav:version-url
+V 51
+/lbscontacts/!svn/ver/178/1/lbscontacts/settings.py
+END
+tests.py
+K 25
+svn:wc:ra_dav:version-url
+V 47
+/lbscontacts/!svn/ver/19/1/lbscontacts/tests.py
+END
+ajax.py
+K 25
+svn:wc:ra_dav:version-url
+V 46
+/lbscontacts/!svn/ver/78/1/lbscontacts/ajax.py
+END
+models.py
+K 25
+svn:wc:ra_dav:version-url
+V 48
+/lbscontacts/!svn/ver/15/1/lbscontacts/models.py
+END
+urls.py
+K 25
+svn:wc:ra_dav:version-url
+V 46
+/lbscontacts/!svn/ver/76/1/lbscontacts/urls.py
+END
+forms.py
+K 25
+svn:wc:ra_dav:version-url
+V 47
+/lbscontacts/!svn/ver/13/1/lbscontacts/forms.py
+END
+TokenBackend.py
+K 25
+svn:wc:ra_dav:version-url
+V 54
+/lbscontacts/!svn/ver/18/1/lbscontacts/TokenBackend.py
+END
+views.py
+K 25
+svn:wc:ra_dav:version-url
+V 48
+/lbscontacts/!svn/ver/155/1/lbscontacts/views.py
+END

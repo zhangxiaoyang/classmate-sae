@@ -1,0 +1,204 @@
+{% extends "base.html" %}
+{% block page %}
+<!-- Mask layer
+================================================== -->
+<div id="dlgprofile" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+      <h3 id="dlgtitle">管理</h3>
+    </div>
+       <div class="modal-body" style="height:200px">
+        <!-- Create class
+        ================================================== -->
+        <div class="row">
+            <ul>  
+                {% for k, v in stu.items %}
+                <li class="span2" style="list-style-type:none">
+                    <label class="radio">
+                    <input type="radio" name="rdstudent" id="s{{ k }}" value="{{ v.studentnum }} {{ v.name }}">{{ v.studentnum }} {{ v.name }}
+                    </label>
+                </li>
+                {% endfor %}
+            </ul>
+        </div>
+        <div class="row" id="divcollege"></div>
+    </div>
+    <div class="modal-footer">
+        <a href="/createstudent/{{ content.classid }}" class="btn pull-left">添加成员</a>
+        <button id="btnchangestudent" class="btn pull-left">修改成员</button>
+        <a href="/changeclass/{{ content.classid }}" class="btn pull-left">修改班级信息</a>
+        <button id="btnenter" class="btn btn-primary">确定</button>
+    </div>
+</div>
+<form action="" method="POST" class="horizontal-form">{% csrf_token %}
+    <div id="dlgvalidate" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+            <h3 id="dlgtitle">回答问题方可进入</h3>
+        </div>
+        <div class="modal-body">
+            <!-- Create class
+            ================================================== -->
+            <div class="row-fluid">
+                {% for k,v in quest.items %}
+                <label class="control-label">{{ v.0 }}</label>                
+                <div class="controls">
+                    <input type="text" id="id_{{ k }}" name="{{ k }}" class="span12" value="{{ v.1 }}">
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button type="submit" class="btn btn-primary">确定</button>
+        </div>
+    </div>   
+</form>
+
+<!-- Map
+================================================== -->
+<div id="map" style="left:0;top:40px;bottom:0;z-index:-5;position:absolute;width:100%;height:100%;overflow:hidden;"></div>
+<div id="panel" style="right:0;top:40px;bottom:0;z-index:-5;position:absolute;height:100%;width:20%;overflow:auto;"></div>
+
+{% endblock %}
+
+{% block js %}
+<script type="text/javascript">
+var map = new BMap.Map("map");// 创建地图实例
+var points = new Array();
+var markers = new Array();
+function init_map(){
+    //$("body").css("height", "100%");
+    //$("body").css("overflow", "hidden")    
+    $(".footer").hide();
+    $("#map").css("width", $(window).width()+"px").css("height", $(window).height()-40+"px");
+    $("#panel").css("width", "20%").css("height", $(window).height()-40+"px");
+    $(window).resize(function(){  
+        $("#map").css("width", $(window).width()+"px").css("height", $(window).height()-40+"px");
+        $("#panel").css("width", "20%").css("height", $(window).height()-40+"px");
+    });  
+
+    map.addControl(new BMap.OverviewMapControl());//添加默认缩略地图控件
+    // map.addControl(new BMap.NavigationControl());//添加默认缩放平移控件
+    map.addControl(new BMap.ScaleControl());// 添加默认比例尺控件
+    // map.addControl(new BMap.OverviewMapControl({isOpen:true, anchor: BMAP_ANCHOR_BOTTOM_LEFT}));//右上角，打开
+    map.enableScrollWheelZoom();    //启用滚轮放大缩小，默认禁用
+    map.enableContinuousZoom();    //启用地图惯性拖拽，默认禁用
+    map.addControl(new BMap.NavigationControl());  //添加默认缩放平移控件
+    map.centerAndZoom("陕西省", 5);
+}
+function init_js(){
+    $("#btnenter").click(function(){
+        $("#dlgprofile").modal("hide");
+        var sel = $('input:radio:checked').val();
+        //if(typeof(sel) != "undefined")
+        //    $("#current").text($('input:radio:checked').val());
+    });    
+    $("input:radio").click(function(){
+        var studentid = $(this).attr("id").replace(/[^0-9]/ig,"");
+        $("#btnchangestudent").attr("href", "/changestudent/"+studentid);
+    });
+    $("#btnchangestudent").click(function(){
+        var sel = $('input:radio:checked').val();
+        if(typeof(sel) == "undefined") alert("亲,先选择自己~")
+        else window.location.href = $(this).attr("href");
+    });
+}
+function addItem(studentid, num, name, qq, weibo, phone, mail, birth, addr, lng, lat, imgid){
+    var content = "<div class='row-fluid'>";
+    // 图标
+    var imgurl = 'http://lbscontacts-lbscontacts.stor.sinaapp.com/'+imgid+'.jpg?timestemp='+new Date().getTime();
+    var icon;
+    icon = new BMap.Icon(
+        imgurl,
+        new BMap.Size(70, 70), {
+        anchor: new BMap.Size(35, 70)
+        });/*
+    icon = new BMap.Icon(
+       'http://api.map.baidu.com/images/marker_red_sprite.png',
+        new BMap.Size(39, 25), {
+        anchor: new BMap.Size(10, 25)
+    });*/
+    if (imgurl != '') {
+        content += "<img style='float:right;margin:4px;width:70px;height:70px' id='img" + num + "' src='" + imgurl + "'/>";
+    }
+    content += '<li>QQ</li>';
+    content += '<label>'+qq+'</label>';
+    content += '<li>新浪微博</li>';
+    content += '<label>'+weibo+'</label>';
+    content += '<li>电话</li>';
+    content += '<label>'+phone+'</label>';
+    content += '<li>Email</li>';
+    content += '<label>'+mail+'</label>';
+    content += '<li>破壳日</li>';
+    content += '<label>'+birth+'</label>';
+    content += '<li>地址</li>';
+    content += '<label>'+addr+'</label></div>';
+    // 添加点
+    var point = new BMap.Point(Number(lng)+0.001*Math.random(), Number(lat)-0.001*Math.random());
+    points.push(point);
+
+    // 创建信息窗口对象
+    var searchInfoWindow = new BMapLib.SearchInfoWindow(map, content, {
+        title: name + " " + num, //标题
+        width: 300, //宽度
+        height: 300, //高度
+        panel: "panel", //检索结果面板
+        enableAutoPan: true, //自动平移
+        searchTypes: [
+            BMAPLIB_TAB_SEARCH, //周边检索
+            BMAPLIB_TAB_TO_HERE, //到这里去
+            BMAPLIB_TAB_FROM_HERE //从这里出发
+        ]
+    });
+    map.addEventListener("dragging", function(){
+        searchInfoWindow.hide();
+    });
+    // 创建标注
+    var marker = new BMap.Marker(point, {icon: icon, title:name + " " + num});
+    //map.addOverlay(marker);// 将标注添加到地图
+    marker.addEventListener("click", function(e){
+        searchInfoWindow.open(marker);
+        $('.BMapLib_search_text, .BMapLib_trans_text').css('margin', '0px');
+        $('.BMapLib_search_text, .BMapLib_trans_text').css('padding', '0px');
+        $('.BMapLib_search_text, .BMapLib_trans_text').css('height', '26px');
+    });     
+    //marker.enableDragging(); 
+    markers.push(marker);
+}
+$(document).ready(function(){
+    init_map();
+    init_js();
+    {% if content.validate %}
+        $("#dlgvalidate").modal("show");
+    {% else %}
+        $("#dlgvalidate").modal("hide");
+     //$("#dlgprofile").modal("show");
+        {% for k, v in stu.items %}
+          addItem('{{k}}','{{v.studentnum}}', '{{v.name}}', '{{v.qq}}', '{{v.weibo}}', '{{v.phone}}', '{{v.mail}}', '{{v.birth}}', '{{v.addr}}', '{{v.lng}}', '{{v.lat}}', '{{v.imgid}}');
+        {% endfor %}
+        var markerClusterer = new BMapLib.MarkerClusterer(map, {markers:markers});
+        map.setViewport(points);
+        map.addEventListener("mousemove", function(){
+            for(var i = 0, cluster; cluster = markerClusterer._clusters[i]; i++){
+                (function (x) { 
+                var content = "";var content1="";
+                for(var j = 0, marker; marker = cluster._markers[j]; j++){
+                  content += '<div class="row-fluid">';
+                  content += '<div class="span2"><img style="width:25px;height:25px" src="' + marker.getIcon().imageUrl + '"></div>';
+                  content += '<div class="span10">' + marker.getTitle() + '</div></div>';
+                }
+                var infowindow = new BMap.InfoWindow(content);
+                cluster._clusterMarker.addEventListener("mouseover", function(e){
+                     map.openInfoWindow(infowindow, e.point);        
+                });    
+                map.addEventListener("dragging", function(){
+                    map.closeInfoWindow();
+                });    
+                })(i);  
+            }
+        });
+         // 头像加边框 $(".BMap_Marker BMap_noprint")
+    {% endif %}
+});
+</script>
+{% endblock %}

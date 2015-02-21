@@ -1,0 +1,278 @@
+{% extends "base.html" %}
+{% block page %}
+<!-- Weixin help
+================================================== -->
+<div id="dlgweixin" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h3 id="dlgtitle">使用帮助</h3>
+    </div>
+    <div class="modal-body">
+        <div class="row-fluid">
+            <div class="span4"></div>
+            <img class="span4" src="http://bcs.duapp.com/mediaavatar/code.jpg"> 
+            <div class="span4"></div>
+        </div>
+        <div class="row-fluid">
+            <ul style="list-style-type:none;text-indent: 2em;">
+                <li>执行完以下操作后，您可以使用微信随时随地更新、查询信息~</li><br/>
+                <li>Step 1. 用微信扫描以上二维码</li>
+                <li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;（或者用微信添加公共平台: daxuetongchang）</li>
+                <li>Step 2. 关注成功后，发送任意消息到大学同窗</li>
+                <li>Step 3. 大学同窗会回复您的OpenID（有字、数字、乱七八糟的字符）</li>
+                <li>Step 4. 把OpenID填在这里即可</li>
+                <li>Step 5. 提交本页面后, 登录手机微信, 发送help到大学同窗了解手机指令</li>
+            </ul>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button class="btn btn-primary" data-dismiss="modal">看明白了</button>
+    </div>
+</div>
+
+<!-- Map layer
+================================================== -->
+<div class="hide" id="map"></div>
+<div id="dlgmap" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h3 id="dlgtitle">选择位置</h3>
+    </div>
+    <div class="modal-body">
+        <div class="row-fluid">
+            <label class="control-label">输入位置关键词</label>
+            <div class="controls">
+                <input type="text" id="txtsearch" class="span12" placeholder="示例: 北京 故宫 东门">
+            </div>
+        </div>
+        <div class="row">
+            <div id="divmap"></div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button class="btn" data-dismiss="modal">取消</button>
+        <button class="btn btn-primary">确定</button>
+    </div>
+</div>
+
+<h1 class="form-signin-heading">修改成员</h1>
+<form action="" method="POST" class="horizontal-form">{% csrf_token %}
+    <!-- person info
+    ================================================== -->
+    <h3 class="form-section">个人信息</h3>
+    <div class="row-fluid">
+        <div class="span6 ">
+            {% if form.studentnum.errors %}
+            <div class="control-group error">
+            {% else %}
+            <div class="control-group">
+            {% endif %}
+                <label class="control-label">学号 <span class="badge badge-warning">必填</span></label>
+                {{ form.studentnum }}
+            </div>
+        </div>
+        <!--/span-->
+        <div class="span6">
+            {% if form.name.errors %}
+            <div class="control-group error">
+            {% else %}
+            <div class="control-group">
+            {% endif %}
+                <label class="control-label">姓名 <span class="badge badge-warning">必填</span></label>
+                {{ form.name }}
+            </div>
+        </div>
+        <!--/span-->
+    </div>
+    <div class="row-fluid">
+        <div class="span6 ">
+            {% if form.qq.errors %}
+            <div class="control-group error">
+            {% else %}
+            <div class="control-group">
+            {% endif %}
+                <label class="control-label">QQ</label>
+                {{ form.qq }}
+            </div>
+        </div>
+        <!--/span-->
+        <div class="span6 ">
+            {% if form.weibo.errors %}
+            <div class="control-group error">
+            {% else %}
+            <div class="control-group">
+            {% endif %}
+                <label class="control-label">新浪微博号</label>
+                {{ form.weibo }}
+            </div>
+        </div>
+        <!--/span-->
+    </div>
+    <div class="row-fluid">
+        <div class="span6 ">
+            {% if form.phone.errors %}
+            <div class="control-group error">
+            {% else %}
+            <div class="control-group">
+            {% endif %}
+                <label class="control-label">手机号码</label>
+                {{ form.phone }}
+            </div>
+        </div>
+        <!--/span-->
+        <div class="span6">
+            {% if form.mail.errors %}
+            <div class="control-group error">
+            {% else %}
+            <div class="control-group">
+            {% endif %}
+                <label class="control-label">E-mail</label>
+                {{ form.mail }}
+            </div>
+        </div>
+        <!--/span-->
+    </div>
+    <div class="row-fluid">
+        <div class="span6 ">
+            {% if form.birthday.errors %}
+            <div class="control-group error">
+            {% else %}
+            <div class="control-group">
+            {% endif %}
+                <label class="control-label span2">生日
+                </label>
+                <ul>
+                  <li class="span2" style="list-style-type:none"><label class="radio"><input id="g" type="radio" name="rddate" value="公历" checked="checked">公历</label></li>
+                  <li class="span2" style="list-style-type:none"><label class="radio"><input id="n" type="radio" name="rddate" value="农历">农历</label></li>
+                </ul>
+                {{ form.birthday }}
+            </div>
+        </div>
+        <!--/span-->
+        <div class="span6 ">
+            {% if form.position.errors %}
+            <div class="control-group error">
+            {% else %}
+            <div class="control-group">
+            {% endif %}
+                <label class="control-label">当前位置 <span class="badge badge-warning">必填</span></label>
+                {{ form.position }}
+            </div>
+        </div>
+        <!--/span-->
+    </div>
+    <div class="row-fluid">
+        <div class="span6 ">
+            {% if form.weixin.errors %}
+            <div class="control-group error">
+            {% else %}
+            <div class="control-group">
+            {% endif %}
+                <label class="control-label">微信OpenID(不是微信号)<a href="#" id="btnweixin">不是微信号，点我一下看看究竟</a></label>
+                {{ form.weixin }}
+            </div>
+        </div>
+        <!--/span-->
+    </div>
+    <div class="row-fluid">       
+        <input id="btnupload" name="avatar" type="file">        
+        <img id="id_avatar" onerror='this.src="http://lbscontacts-lbscontacts.stor.sinaapp.com/error.jpg";' src="http://lbscontacts-lbscontacts.stor.sinaapp.com/{{studentid}}.jpg" style="height:70px;width:70px">
+        <!--/span-->
+    </div>
+    <div class="text-center">
+        <button type="submit" class="btn btn-primary">确定</button>
+        <a type="button" href="/" class="btn">取消</a>
+    </div>
+</form>
+{% endblock %}
+
+{% block js %}
+<script type = "text/javascript" >
+// function showPreview(coords) {
+//     if (parseInt(coords.w) > 0) {
+//         //计算预览区域图片缩放的比例，通过计算显示区域的宽度(与高度)与剪裁的宽度(与高度)之比得到
+//         var rx = $("#preview_box").width() / coords.w;
+//         var ry = $("#preview_box").height() / coords.h;
+//         //通过比例值控制图片的样式与显示
+//         $("#crop_preview").css({
+//             width: Math.round(rx * $("#xuwanting").width()) + "px", //预览图片宽度为计算比例值与原图片宽度的乘积
+//             height: Math.round(rx * $("#xuwanting").height()) + "px", //预览图片高度为计算比例值与原图片高度的乘积
+//             marginLeft: "-" + Math.round(rx * coords.x) + "px",
+//             marginTop: "-" + Math.round(ry * coords.y) + "px"
+//         });
+//     }
+//}
+// 日期控件
+$("input:radio").click(function(){
+    var rddate = $(this).attr("id");
+    $("#id_birthday").val(rddate+$("#id_birthday").val().replace(/[^0-9]/ig,""));
+});
+$("#id_birthday").datepicker({
+    defaultDate:new Date(1990, 01, 01), 
+    'dateFormat':('yymmdd'),
+    onSelect: function(date) {
+        if($("#g").attr("checked") == "checked"){
+            $("#id_birthday").val("g"+$("#id_birthday").val().replace(/[^0-9]/ig,""));
+        }else if($("#n").attr("checked") == "checked"){
+            $("#id_birthday").val("n"+$("#id_birthday").val().replace(/[^0-9]/ig,""));
+        }
+    }
+});
+  
+$('#id_avatar').error(function(){
+    $(this).hide();
+});
+$('#btnupload').uploadify({　　
+    'formData' : { 'csrfmiddlewaretoken' : '{{ csrf_token }}'},
+    'swf': '/static/swf/uploadify.swf',
+    'uploader'  : '/ajax/upload/{{studentid}}/',
+    'buttonText': '上传头像',
+    'fileTypeExts': '*.jpg;*.bmp;*.png;*.gif',
+    'onUploadSuccess' : function (file, data, response) {
+      $('#id_avatar').show();
+      $("#id_avatar").attr('src', 'http://lbscontacts-lbscontacts.stor.sinaapp.com/{{studentid}}.jpg?timestemp='+new Date().getTime());
+        // $('#id_avatar').Jcrop({
+        //     onChange:showPreview,
+        //     onSelect:showPreview,
+        //     aspectRatio:1
+        // });
+    }
+});
+$("#btnweixin").click(function(){
+    $("#dlgweixin").modal('show');
+});
+$("#id_position").click(function(){
+    $("#dlgmap").modal('show');
+});
+
+var map = new BMap.Map("map");// 创建Map实例
+$("#txtsearch").keyup(function(){
+
+map.centerAndZoom(new BMap.Point(116.404, 39.915), 11)
+    var options = {
+        onSearchComplete: function(results) {
+            // 判断状态是否正确
+            if (local.getStatus() == BMAP_STATUS_SUCCESS) {
+                var s = "<ul>";
+                for (var i = 0; i < results.getCurrentNumPois(); i++) {
+                    s += '<li class="span12">';
+                    s += '<a href="#" class="lbladdress">';
+                    s += results.getPoi(i).title + "," + results.getPoi(i).address;
+                    s += '('+results.getPoi(i).point.lng + ','+ results.getPoi(i).point.lat+')';
+                }
+                s += "</ul>"
+                $("#divmap").html(s);
+
+                $(".lbladdress").click(function(){
+                    $("#dlgmap").modal('hide');
+                    $("#id_position").val($(this).text());
+                });
+            }
+        }   
+    };
+    var local = new BMap.LocalSearch(map, options);
+    local.setPageCapacity(15);
+    local.search($(this).val());
+});
+</script>
+{% endblock %}

@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<!--  
+Template Name: Conquer Responsive Admin Dashboard Template build with Twitter Bootstrap 2.3.1
+Version: 1.4
+Author: KeenThemes
+Website: http://www.keenthemes.com
+Purchase: http://themeforest.net/item/conquer-responsive-admin-dashboard-template/3716838
+-->
+<!--[if IE 8]> <html lang="en" class="ie8"> <![endif]-->
+<!--[if IE 9]> <html lang="en" class="ie9"> <![endif]-->
+<!--[if !IE]><!--> <html lang="en" style="height:100%;width:100%;margin:auto 0px;"> <!--<![endif]-->
+<!-- BEGIN HEAD -->
+<head>
+	<meta charset="utf-8" />
+	<title>大学同窗 | 留住回忆 延续感动</title>
+	<meta content="width=device-width, initial-scale=1.0" name="viewport" />
+	<meta content="" name="提供大学班级同学联系方式、地理位置等信息的查询服务。" />
+	<meta content="" name="zhangxiaoyang" />
+    <meta name="baidu-site-verification" content="kEnQHqPFbn" />
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no" /> 
+	<!-- BEGIN GLOBAL MANDATORY STYLES -->
+	<link href="/static/css/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="/static/css/bootstrap/css/bootstrap-responsive.min.css" rel="stylesheet" /> 
+    <link href="/static/css/bootstrap/css/docs.css" rel="stylesheet" />  
+    <link href="/static/css/uploadify.css" rel="stylesheet" />     
+    <link href="/static/css/jquery.Jcrop.min.css" rel="stylesheet" />  
+    <link rel="stylesheet" href="http://api.map.baidu.com/library/SearchInfoWindow/1.5/src/SearchInfoWindow_min.css" />
+    <link href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" rel="stylesheet" />    
+    {% block css %}{% endblock %}
+	<!-- END PAGE LEVEL STYLES -->
+</head>
+<!-- END HEAD -->
+<!-- BEGIN BODY -->
+<body screen_capture_injected="true">
+    <!-- Navbar
+    ================================================== -->
+  <div class="navbar navbar-inverse navbar-fixed-top">
+        <div class="navbar-inner">
+            <div class="container">
+                <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="brand" style="float:left" href="/index">大学同窗</a>
+                <div class="nav-collapse collapse">
+                    <ul class="nav">
+                        <li class="active">
+                            <a href="/index">主页</a>
+                        </li>
+                        <li class="active">
+                            <a href="/weixin">微信版</a><!--
+                        </li>
+                        <li class="active">
+                            <a href="/album">QQ相册批量导出</a>
+                        </li>
+                        <li class="active">
+                            <a href="/sms">手机短信批量导出</a>
+                        </li>-->
+                    </ul>
+                </div>
+                <div class="nav-collapse collapse pull-right">
+                    <ul class="nav">
+                        <li class="dropdown-toggle">
+                            {% if request.user.pk %}
+                            <a href="#" id="current" class="dropdown-toggle" data-toggle="dropdown" style="display:none;">{{request.user.pk}}</a>
+                            <ul class="dropdown-menu">
+                                <li><a id="btnmanage">管理</a></li>
+                                <li class="divider"></li>
+                                <li><a href="/bye">退出登录</a></li>
+                            </ul>
+                            {% endif %}
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- container
+    ================================================== -->
+    <div class="container">
+	{% block page %}{% endblock %}
+    </div>
+    <!-- blank
+    ================================================== -->
+    <footer class="footer hide">
+        <div class="text-center">
+            <p><a href="#">Built by HappyTeam!</a>
+            </p>
+        </div>
+    </footer>
+    <!-- BEGIN PLUGINS -->
+    <script src="/static/js/jquery-1.8.3.min.js" type="text/javascript"></script>		
+    <script src="/static/js/jquery.cookie.js" type="text/javascript"></script>		
+    <script src="/static/css/bootstrap/js/bootstrap.min.js" type="text/javascript"></script>    
+    <script type="text/javascript" src="/static/js/jquery.uploadify.js"></script>
+    <script type="text/javascript" src="http://api.map.baidu.com/api?v=1.5&ak=D8d3f29f743c4526cd4408788c39640b"></script>
+    <script type="text/javascript" src="http://api.map.baidu.com/library/TextIconOverlay/1.2/src/TextIconOverlay_min.js"></script>
+    <script type="text/javascript" src="http://api.map.baidu.com/library/MarkerClusterer/1.2/src/MarkerClusterer_min.js"></script>
+    <script type="text/javascript" src="http://api.map.baidu.com/library/SearchInfoWindow/1.5/src/SearchInfoWindow_min.js"></script>
+    <script type="text/javascript" src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>  
+
+    <!-- END PLUGINS -->
+    <script type = "text/javascript" >
+    $("#btnsource").click(function(){
+      if(window.confirm('您可以使用代码中的任何语句, 请注明出处, 严禁用于商业用途, 确定吗?')){
+          window.open("https://github.com/zhangxiaoyang/classmate", "_blank"); 
+      }
+    });
+    $("#btnmanage").click(function(){
+        $("#dlgprofile").modal("show");
+    });
+    if(window.location.pathname.indexOf('/enterclass/')){
+        $("#btnmanage").text('进入班级');
+        $("#btnmanage").attr('href','http://lbscontacts.sinaapp.com/enterclass/'+{{request.user.pk}});
+    }
+    $.getJSON("/ajax/querylogin", {"classid":$("#current").text()},function(data){
+        $("#current").text(data).show();
+    });
+    </script>
+    {% block js %}{% endblock %}
+</body>
+<!-- END BODY -->
+</html>

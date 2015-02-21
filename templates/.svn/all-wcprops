@@ -1,0 +1,89 @@
+K 25
+svn:wc:ra_dav:version-url
+V 37
+/lbscontacts/!svn/ver/188/1/templates
+END
+create_student.html
+K 25
+svn:wc:ra_dav:version-url
+V 56
+/lbscontacts/!svn/ver/84/1/templates/create_student.html
+END
+base.html
+K 25
+svn:wc:ra_dav:version-url
+V 47
+/lbscontacts/!svn/ver/188/1/templates/base.html
+END
+change_class.html
+K 25
+svn:wc:ra_dav:version-url
+V 53
+/lbscontacts/!svn/ver/2/1/templates/change_class.html
+END
+change_student.html
+K 25
+svn:wc:ra_dav:version-url
+V 56
+/lbscontacts/!svn/ver/79/1/templates/change_student.html
+END
+test.html
+K 25
+svn:wc:ra_dav:version-url
+V 45
+/lbscontacts/!svn/ver/2/1/templates/test.html
+END
+album.html
+K 25
+svn:wc:ra_dav:version-url
+V 47
+/lbscontacts/!svn/ver/87/1/templates/album.html
+END
+enter_class.html
+K 25
+svn:wc:ra_dav:version-url
+V 54
+/lbscontacts/!svn/ver/176/1/templates/enter_class.html
+END
+sms.html
+K 25
+svn:wc:ra_dav:version-url
+V 45
+/lbscontacts/!svn/ver/88/1/templates/sms.html
+END
+400.html
+K 25
+svn:wc:ra_dav:version-url
+V 44
+/lbscontacts/!svn/ver/2/1/templates/400.html
+END
+weixin.html
+K 25
+svn:wc:ra_dav:version-url
+V 48
+/lbscontacts/!svn/ver/80/1/templates/weixin.html
+END
+500.html
+K 25
+svn:wc:ra_dav:version-url
+V 44
+/lbscontacts/!svn/ver/2/1/templates/500.html
+END
+403.html
+K 25
+svn:wc:ra_dav:version-url
+V 44
+/lbscontacts/!svn/ver/2/1/templates/403.html
+END
+index.html
+K 25
+svn:wc:ra_dav:version-url
+V 47
+/lbscontacts/!svn/ver/81/1/templates/index.html
+END
+create_class.html
+K 25
+svn:wc:ra_dav:version-url
+V 54
+/lbscontacts/!svn/ver/85/1/templates/create_class.html
+END
